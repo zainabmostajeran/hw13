@@ -24,7 +24,7 @@ export function Header() {
         </div>
       </div>
       <div
-        className={`bg-gray-100 h-full absolute z-50 w-full ${
+        className={`bg-gray-100 h-full absolute z-50 w-full${
           hiddenMenu ? "hidden" : ""
         }`}
       >
