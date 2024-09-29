@@ -5,7 +5,6 @@ import { Input } from "./components/Input";
 function App() {
   const [firstTimeLoading, setFirstTimeLoading] = React.useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
-
   const [values, setValues] = React.useState<{
     countryName: string;
     Nature: string;
