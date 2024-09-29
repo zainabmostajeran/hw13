@@ -250,6 +250,10 @@ function App() {
                 </div>
                 <button
                   type="submit"
+                  disabled={
+                    isSubmitting ||
+                    Object.values(errors).some((error) => error.length > 0)
+                  }
                   className="bg-[#0c9e24] rounded-xl w-full text-white text-lg font-semibold py-2  disabled:bg-slate-600"
                 >
                   Submit
