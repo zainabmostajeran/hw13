@@ -1,9 +1,11 @@
 import React from "react";
 import { Header } from "./components/header";
 import { Input } from "./components/Input";
-// import { className } from "./utils/classNames";
+
 function App() {
   const [firstTimeLoading, setFirstTimeLoading] = React.useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+
   const [values, setValues] = React.useState<{
     countryName: string;
     Nature: string;
@@ -25,6 +27,7 @@ function App() {
     Linkedin: "",
     idea: "",
   });
+
   interface IValuesType<T = string> {
     countryName: T;
     Nature: T;
@@ -36,59 +39,52 @@ function App() {
     Linkedin: T;
     idea: T;
   }
+
   type validatorFunc = (_: string) => string | null;
+
   const validator: IValuesType<validatorFunc> = {
     countryName: (value: string) => {
-      // if (!value) return "Invalid name";
-      return value?.length < 5 || value?.length > 16
+      return value?.length >= 5 && value?.length <= 16
         ? null
-        : "countryName should be 5-16 character";
+        : "Country name should be 5-16 characters";
     },
     Nature: (value: string) => {
-      // if (!value) return "Invalid nature";
-      return value?.length < 8 || value?.length > 16
+      return value?.length >= 8 && value?.length <= 16
         ? null
-        : "Nature of business should be 8-16 character";
+        : "Nature of business should be 8-16 characters";
     },
     Address: (value: string) => {
-      // if (!value) return "Invalid  Address";
-      return value?.length < 8 || value?.length > 16
+      return value?.length >= 8 && value?.length <= 16
         ? null
-        : "Address of business should be 8-16 character";
+        : "Address should be 8-16 characters";
     },
     code: (value: string) => {
-      // if (!value) return "Invalid  code";
       return Number(value) > 0 ? null : "Postcode should be a positive number";
     },
     Name: (value: string) => {
-      // if (!value) return "Invalid  Name";
       return value.length >= 5
         ? null
         : "Contact name should be more than 5 characters";
     },
     Phone: (value: string) => {
-      // if (!value) return "Invalid  Phone";
       return Number(value) > 0
         ? null
-        : "Phone number should be a positive number";
+        : "Contact Phone number should be a positive number";
     },
     email: (value: string) => {
-      // if (!value) return "Invalid  email";
-      return !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+      return /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
         ? null
         : "Invalid email address";
     },
     Linkedin: (value: string) => {
-      // if (!value) return "Invalid  Linkedin";
-      return !/^https?:\/\/(www\.)?linkedin\.com$/i.test(value)
+      return /^https?:\/\/(www\.)?linkedin\.com/i.test(value)
         ? null
-        : "Invalid Linkedin URL";
+        : "Invalid LinkedIn URL";
     },
     idea: (value: string) => {
-      // if (!value) return "Invalid  idea";
-      return value.length > 10
+      return value.length >= 10
         ? null
-        : "Idea should be 10 characters long";
+        : "Idea should be at least 10 characters long";
     },
   };
   const inputChangeHandler = (
@@ -119,7 +115,8 @@ function App() {
   });
   const onSubmitHandler: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    if (Object.values(errors).join("").length) return;
+    if (Object.values(errors).some((error) => error.length > 0)) return;
+    setIsSubmitting(true);
     console.log(values);
   };
   React.useEffect(() => {
@@ -129,32 +126,23 @@ function App() {
     }
     const newErrors = { ...errors };
     const countryNameError = validator.countryName(values.countryName);
-    if (countryNameError) newErrors.countryName = countryNameError;
-    else newErrors.countryName = "";
+    newErrors.countryName = countryNameError || "";
     const NatureError = validator.Nature(values.Nature);
-    if (NatureError) newErrors.Nature = NatureError;
-    else newErrors.Nature = "";
-    const AddressError = validator.Address(values.Nature);
-    if (AddressError) newErrors.Address = AddressError;
-    else newErrors.Address = "";
+    newErrors.Nature = NatureError || "";
+    const AddressError = validator.Address(values.Address);
+    newErrors.Address = AddressError || "";
     const codeError = validator.code(values.code);
-    if (codeError) newErrors.code = codeError;
-    else newErrors.code = "";
-    const NameError = validator.Name(values.code);
-    if (NameError) newErrors.Name = NameError;
-    else newErrors.Name = "";
-    const PhoneError = validator.Phone(values.code);
-    if (PhoneError) newErrors.Phone = PhoneError;
-    else newErrors.Phone = "";
-    const emailError = validator.email(values.code);
-    if (emailError) newErrors.email = emailError;
-    else newErrors.email = "";
-    const LinkedinError = validator.Linkedin(values.code);
-    if (LinkedinError) newErrors.Linkedin = LinkedinError;
-    else newErrors.Linkedin = "";
-    const ideaError = validator.idea(values.code);
-    if (ideaError) newErrors.idea = ideaError;
-    else newErrors.idea = "";
+    newErrors.code = codeError || "";
+    const NameError = validator.Name(values.Name);
+    newErrors.Name = NameError || "";
+    const PhoneError = validator.Phone(values.Phone);
+    newErrors.Phone = PhoneError || "";
+    const emailError = validator.email(values.email);
+    newErrors.email = emailError || "";
+    const LinkedinError = validator.Linkedin(values.Linkedin);
+    newErrors.Linkedin = LinkedinError || "";
+    const ideaError = validator.idea(values.idea);
+    newErrors.idea = ideaError || "";
 
     setErrors(newErrors);
   }, [values]);
@@ -262,7 +250,6 @@ function App() {
                 </div>
                 <button
                   type="submit"
-                  disabled={!!errors}
                   className="bg-[#0c9e24] rounded-xl w-full text-white text-lg font-semibold py-2  disabled:bg-slate-600"
                 >
                   Submit
