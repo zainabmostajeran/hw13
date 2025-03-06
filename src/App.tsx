@@ -146,16 +146,15 @@ function App() {
     setErrors(newErrors);
   }, [values]);
   return (
-    <>
+    <div className="container mx-auto w-full">
       <Header />
       <div className="container mx-auto">
-        <div className="container mx-auto px-14 py-9 flex flex-col gap-3">
-          <p className="font-bold text-2xl text-center md:text-start">
+        <div className="container mx-auto px-14 pt-20 pb-14 flex flex-col gap-3">
+          <h2 className="font-bold text-3xl text-center md:text-start">
             contact us
-          </p>
-          <p className="text-sm text-gray-600 text-center md:text-start">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel est
-            placeat, delectus quod
+          </h2>
+          <p className="text-sm text-gray-400 max-w-[390px] pt-2">
+          Need an experinced and skilled gand with custom it projects ? fill out the form to get a free consultaion.
           </p>
         </div>
         <div className=" block md:flex container mx-auto px-14 md:gap-44">
@@ -253,7 +252,7 @@ function App() {
                     isSubmitting ||
                     Object.values(errors).some((error) => error.length > 0)
                   }
-                  className="bg-[#0c9e24] rounded-xl w-full text-white text-lg font-semibold py-2  disabled:bg-slate-600"
+                  className="bg-[#0c9e24] hover:bg-gray-900 rounded-xl w-full text-white text-lg font-semibold py-2  disabled:bg-slate-600"
                 >
                   Submit
                 </button>
@@ -306,7 +305,7 @@ function App() {
                 Would you like to join our newsletter?
               </p>
               <div className="flex mt-5 py-2 gap-4 items-center justify-center md:justify-start">
-                <input className="border-b-2 py-2" placeholder="Email" />
+                <input className="border-b-2 py-2 px-2" placeholder="Email" />
                 <button className="bg-[#0c9e24] p-3">
                   <img className="w-4" src="icons8-tick.svg" alt="" />
                 </button>
@@ -315,7 +314,7 @@ function App() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 export default App;

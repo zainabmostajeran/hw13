@@ -5,7 +5,6 @@ interface IInputProps {
   defaultValue?: string;
   type?: React.HTMLInputTypeAttribute;
   onChangeHandler?: (_: string) => unknown;
-  // validator?: (_: string) => string;
   error: string;
 }
 export const Input: React.FC<IInputProps> = ({
@@ -13,7 +12,6 @@ export const Input: React.FC<IInputProps> = ({
   type = "text",
   defaultValue = "",
   onChangeHandler,
-  // validator,
   error,
 }) => {
   const [value, setValue] = React.useState<string>(defaultValue);
@@ -30,9 +28,9 @@ export const Input: React.FC<IInputProps> = ({
         onChange={onchange}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        className="border-b-2 w-full px-2 py-2 "
+        className={` w-full px-2 py-2 ${error?" border-b-2 border-red-600":"border-b-2"} `}
       />
-      {!!error && <p className="text-red-500 text-sm font-medium">{error}</p>}
+      {!!error && <p className="text-red-500  text-sm font-medium">{error}</p>}
     </div>
   );
 };
